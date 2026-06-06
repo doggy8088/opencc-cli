@@ -1,0 +1,26 @@
+[package]
+name = "opencc-cli"
+version = "0.1.0"
+edition = "2024"
+description = "Pure Rust OpenCC Command Line Interface"
+license = "MIT"
+repository = "https://github.com/doggy8088/opencc-cli"
+homepage = "https://github.com/doggy8088/opencc-cli"
+
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+clap_complete = "4.5"
+opencc-rust = { git = "https://github.com/doggy8088/opencc-rust.git" }
+anyhow = "1.0"
+
+[dev-dependencies]
+assert_cmd = "2.0.12"
+predicates = "3.1.0"
+tempfile = "3.10.1"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
