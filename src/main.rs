@@ -8,12 +8,22 @@ use std::path::PathBuf;
 #[derive(Parser, Debug)]
 #[command(name = "opencc-cli", version, about = "OpenCC Command Line Interface")]
 struct Cli {
-    /// Source locale
-    #[arg(short, long, default_value = "cn")]
+    /// Source locale (supported: cn, hk, tw, tw2, twp, jp, t)
+    #[arg(
+        short,
+        long,
+        default_value = "cn",
+        value_parser = ["cn", "hk", "tw", "tw2", "twp", "jp", "t"]
+    )]
     from: String,
 
-    /// Target locale
-    #[arg(short, long, default_value = "tw2")]
+    /// Target locale (supported: cn, hk, tw, tw2, twp, jp, t)
+    #[arg(
+        short,
+        long,
+        default_value = "tw2",
+        value_parser = ["cn", "hk", "tw", "tw2", "twp", "jp", "t"]
+    )]
     to: String,
 
     /// Input file path (optional)
