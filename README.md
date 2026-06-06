@@ -132,4 +132,4 @@ opencc-cli completions zsh > /usr/local/share/zsh/site-functions/_opencc-cli
 ## 授權條款
 
 本專案採用 **MIT 授權條款**，詳情請參閱 [LICENSE](LICENSE) 檔案。
-著作權所有 (c) 2026 Will 保哥。
+著作權所有 © 2026 [Will 保哥](https://www.facebook.com/will.fans/)。
