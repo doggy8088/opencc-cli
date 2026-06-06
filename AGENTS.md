@@ -102,4 +102,4 @@ The testing harness in `tests/e2e.rs` consists of **51 integration tests** spann
    - When a Git tag matching `v*` (e.g. `v0.1.0`) is pushed, GitHub Actions automatically executes the workflow defined in `.github/workflows/release.yml`.
    - It builds native binaries for the defined target triples, generates `.tar.xz`/`.zip` archives, creates a GitHub Release, and publishes the npm installer package to the registry.
 3. **npm Post-install Mechanic**:
-   - The generated npm package acts as a lightweight wrapper. Upon `npm install -g opencc-cli`, a post-install script downloads the correct precompiled native binary for the user's OS and CPU from the GitHub Release attachments.
+   - The generated npm package acts as a lightweight wrapper. Upon `npm install -g @willh/opencc-cli`, a post-install script downloads the correct precompiled native binary for the user's OS and CPU from the GitHub Release attachments.

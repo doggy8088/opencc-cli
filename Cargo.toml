@@ -25,3 +25,5 @@ tempfile = "3.10.1"
 inherits = "release"
 lto = "thin"
 
+[package.metadata.dist]
+npm-package = "@willh/opencc-cli"

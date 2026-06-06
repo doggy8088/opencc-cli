@@ -15,7 +15,7 @@
 ### 透過 npm 安裝
 
 ```bash
-npm install -g opencc-cli
+npm install -g @willh/opencc-cli
 ```
 
 ### 從 Release 頁面下載
