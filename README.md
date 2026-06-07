@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/opencc-cli-readme-banner-web.png" alt="opencc-cli header banner" width="100%">
+</p>
+
 # opencc-cli
 
 `opencc-cli` 是一個以 Rust 開發的 Command-Line Interface (CLI) 工具，基於 [`opencc-rust`](https://github.com/doggy8088/opencc-rust) 函式庫，提供跨平台、高效能的中文簡繁體及各地區詞彙轉換功能。
