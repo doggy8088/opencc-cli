@@ -1,6 +1,6 @@
 # Makefile for opencc-cli
 
-.PHONY: all build test fmt fmt-check clippy clean install completions help
+.PHONY: all build test fmt fmt-check clippy clean install uninstall completions help
 
 # Default target
 all: build test
@@ -18,6 +18,7 @@ help:
 	@echo "  make clippy        - Run Clippy linter with strict warning-as-error"
 	@echo "  make clean         - Clean all cargo target build files"
 	@echo "  make install       - Install opencc-cli binary locally to cargo bin path"
+	@echo "  make uninstall     - Uninstall opencc-cli binary from cargo bin path"
 	@echo "  make completions   - Generate shell completion scripts for all shells"
 	@echo "========================================================================"
 
@@ -44,6 +45,9 @@ clean:
 
 install:
 	cargo install --path . --force
+
+uninstall:
+	cargo uninstall opencc-cli
 
 completions: build
 	mkdir -p completions
