@@ -38,8 +38,9 @@ fn test_stdin_cn_tw2_uses_tai_except_official_names() {
         .assert()
         .success()
         .stdout(
-            predicate::eq("我在臺北市政府上班，國立臺灣大學在台北，新臺幣，颱風\n")
-                .or(predicate::eq("我在臺北市政府上班，國立臺灣大學在台北，新臺幣，颱風")),
+            predicate::eq("我在臺北市政府上班，國立臺灣大學在台北，新臺幣，颱風\n").or(
+                predicate::eq("我在臺北市政府上班，國立臺灣大學在台北，新臺幣，颱風"),
+            ),
         );
 }
 
@@ -405,6 +406,56 @@ fn test_help_flag_long() {
             .or(predicate::str::contains("opencc-cli"))
             .or(predicate::str::contains("Options:")),
     );
+}
+
+#[test]
+fn test_short_help_lists_locales_and_points_to_full_guide() {
+    opencc_cmd().arg("-h").assert().success().stdout(
+        predicate::str::contains("Locales:")
+            .and(predicate::str::contains("tw2"))
+            .and(predicate::str::contains("recommended"))
+            .and(predicate::str::contains("Examples:"))
+            .and(predicate::str::contains("opencc-cli --help")),
+    );
+}
+
+#[test]
+fn test_long_help_is_a_complete_guide() {
+    opencc_cmd().arg("--help").assert().success().stdout(
+        predicate::str::contains("Locales:")
+            .and(predicate::str::contains("Choosing --from / --to:"))
+            .and(predicate::str::contains("How conversion works:"))
+            .and(predicate::str::contains("Behavior:"))
+            .and(predicate::str::contains("Exit status:")),
+    );
+}
+
+#[test]
+fn test_long_help_locale_samples_match_actual_output() {
+    let help = String::from_utf8(opencc_cmd().arg("--help").output().unwrap().stdout).unwrap();
+    let input = help
+        .lines()
+        .find_map(|l| l.trim().strip_prefix("Same input with each --to (input: "))
+        .and_then(|l| l.strip_suffix("):"))
+        .expect("sample input line missing from --help");
+
+    let mut checked = 0;
+    for line in help.lines() {
+        let Some(rest) = line.trim().strip_prefix("-t ") else {
+            continue;
+        };
+        let Some((locale, expected)) = rest.split_once(' ') else {
+            continue;
+        };
+        opencc_cmd()
+            .args(["-f", "cn", "-t", locale])
+            .write_stdin(input)
+            .assert()
+            .success()
+            .stdout(expected.trim().to_string());
+        checked += 1;
+    }
+    assert_eq!(checked, 6, "expected one sample line per non-cn locale");
 }
 
 #[test]

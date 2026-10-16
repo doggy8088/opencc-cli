@@ -26,9 +26,10 @@ Welcome! This document provides information on the architecture, development wor
 ├── Makefile              # Automation of common tasks (build, test, lint, format)
 ├── README.md             # Traditional Chinese (zh-tw) user guide
 ├── src/
-│   └── main.rs           # Core CLI execution entry point
+│   ├── main.rs           # Core CLI execution entry point
+│   └── help.rs           # -h / --help text (--help doubles as the agent-facing usage guide)
 ├── tests/
-│   └── e2e.rs            # Category-Partition & Boundary value E2E test suite (51 tests)
+│   └── e2e.rs            # Category-Partition & Boundary value E2E test suite (56 tests)
 └── .github/
     └── workflows/
         └── release.yml   # CI/CD release pipeline (managed automatically by cargo-dist)
@@ -73,10 +74,10 @@ We use a `Makefile` to simplify common commands.
 
 ## 4. Testing & Verification
 
-The testing harness in `tests/e2e.rs` consists of **51 integration tests** spanning four distinct tiers:
+The testing harness in `tests/e2e.rs` consists of **56 integration tests** spanning four distinct tiers:
 
 1. **Tier 1: Feature Coverage**:
-   Happy path validations for stdin/stdout, files, default conversion configurations, and completions subcommand.
+   Happy path validations for stdin/stdout, files, default conversion configurations, completions subcommand, and help text. The locale sample table in `--help` is checked against real conversion output, so update `src/help.rs` when dictionaries change.
 2. **Tier 2: Boundary & Corner Cases**:
    Empty streams, read-only file handlers, non-existent directories, unknown locale parameters, and extreme input length validations.
 3. **Tier 3: Feature Combinations**:
@@ -85,7 +86,7 @@ The testing harness in `tests/e2e.rs` consists of **51 integration tests** spann
    Multiline Wikipedia extracts, syntax code comment blocks, diff patches, and piped round-trip conversions.
 
 > [!NOTE]
-> Always run `make test` before pushing any changes. All 51 tests must pass.
+> Always run `make test` before pushing any changes. All 56 tests must pass.
 
 ---
 
