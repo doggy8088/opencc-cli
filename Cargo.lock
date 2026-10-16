@@ -338,15 +338,16 @@ dependencies = [
  "assert_cmd",
  "clap",
  "clap_complete",
- "opencc-rust",
+ "opencc-rs-tw2",
  "predicates",
  "tempfile",
 ]
 
 [[package]]
-name = "opencc-rust"
-version = "0.1.1"
-source = "git+https://github.com/doggy8088/opencc-rust.git#276e9fea766fe53f32a31270993b3f7bc5ce6905"
+name = "opencc-rs-tw2"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "09519318fdbca8fdc7f2679567cd339b5a156a6a8ea887b86abf5befe8e6c042"
 dependencies = [
  "xmltree",
 ]

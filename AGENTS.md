@@ -10,7 +10,7 @@ Welcome! This document provides information on the architecture, development wor
 
 ### High-Level Components
 - **CLI Parsing (`clap`)**: Uses `clap` (v4) with standard features. Restricts the `--from` (`-f`) and `--to` (`-t`) arguments to valid, built-in OpenCC locales via strict `value_parser` arrays.
-- **Conversion Engine**: Depends on the external pure-Rust port `opencc-rust` via a Git dependency.
+- **Conversion Engine**: Depends on the external pure-Rust port `opencc-rust`, published on crates.io as `opencc-rs-tw2` (the dependency is renamed back to `opencc-rust` in `Cargo.toml`).
 - **Stream Processing**: Uses `BufReader` and `BufWriter` around inputs and outputs. This allows efficient conversion of massive text files and unbounded streams line-by-line without high memory consumption.
 - **Shell Completions (`clap_complete`)**: Implements a `completions` subcommand that outputs shell scripts for `bash`, `zsh`, `fish`, `powershell`, and `elvish` directly to standard output.
 
