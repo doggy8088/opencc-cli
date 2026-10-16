@@ -345,8 +345,8 @@ dependencies = [
 
 [[package]]
 name = "opencc-rust"
-version = "0.1.0"
-source = "git+https://github.com/doggy8088/opencc-rust.git#c79ea78d1d4acf524afe46eaa5f277a558107d7b"
+version = "0.1.1"
+source = "git+https://github.com/doggy8088/opencc-rust.git#276e9fea766fe53f32a31270993b3f7bc5ce6905"
 dependencies = [
  "xmltree",
 ]

@@ -31,6 +31,29 @@ fn test_stdin_explicit_cn_tw2() {
 }
 
 #[test]
+fn test_stdin_cn_tw2_uses_tai_except_official_names() {
+    opencc_cmd()
+        .args(["-f", "cn", "-t", "tw2"])
+        .write_stdin("我在台北市政府上班，国立台湾大学在台北，新台币，台风")
+        .assert()
+        .success()
+        .stdout(
+            predicate::eq("我在臺北市政府上班，國立臺灣大學在台北，新臺幣，颱風\n")
+                .or(predicate::eq("我在臺北市政府上班，國立臺灣大學在台北，新臺幣，颱風")),
+        );
+}
+
+#[test]
+fn test_stdin_tw2_tw2_normalizes_official_names() {
+    opencc_cmd()
+        .args(["-f", "tw2", "-t", "tw2"])
+        .write_stdin("台北市政府在台北")
+        .assert()
+        .success()
+        .stdout(predicate::eq("臺北市政府在台北\n").or(predicate::eq("臺北市政府在台北")));
+}
+
+#[test]
 fn test_stdin_explicit_cn_tw() {
     opencc_cmd()
         .args(["-f", "cn", "-t", "tw"])
