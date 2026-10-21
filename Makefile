@@ -2,6 +2,13 @@
 
 .PHONY: all build test fmt fmt-check clippy clean install uninstall completions help
 
+# Use the sibling core during multiarch development. Release builds resolve the
+# versioned registry dependency after the core crate has been published.
+CARGO := cargo
+ifneq ($(wildcard ../opencc-rust/Cargo.toml),)
+CORE_PATCH := --config 'patch.crates-io.opencc-rs-tw2.path="../opencc-rust"'
+endif
+
 # Default target
 all: build test
 
@@ -23,37 +30,37 @@ help:
 	@echo "========================================================================"
 
 build:
-	cargo build
+	$(CARGO) build $(CORE_PATCH)
 
 release-build:
 	dist build
 
 test:
-	cargo test
+	$(CARGO) test $(CORE_PATCH)
 
 fmt:
-	cargo fmt --all
+	$(CARGO) fmt --all
 
 fmt-check:
-	cargo fmt --all -- --check
+	$(CARGO) fmt --all -- --check
 
 clippy:
-	cargo clippy --workspace --all-targets -- -D warnings
+	$(CARGO) clippy $(CORE_PATCH) --workspace --all-targets -- -D warnings
 
 clean:
-	cargo clean
+	$(CARGO) clean
 
 install:
-	cargo install --path . --force
+	$(CARGO) install $(CORE_PATCH) --path . --force
 
 uninstall:
-	cargo uninstall opencc-cli
+	$(CARGO) uninstall opencc-cli
 
 completions: build
 	mkdir -p completions
-	cargo run -- completions bash > completions/opencc-cli.bash
-	cargo run -- completions zsh > completions/_opencc-cli
-	cargo run -- completions fish > completions/opencc-cli.fish
-	cargo run -- completions powershell > completions/opencc-cli.ps1
-	cargo run -- completions elvish > completions/opencc-cli.elv
+	$(CARGO) run $(CORE_PATCH) -- completions bash > completions/opencc-cli.bash
+	$(CARGO) run $(CORE_PATCH) -- completions zsh > completions/_opencc-cli
+	$(CARGO) run $(CORE_PATCH) -- completions fish > completions/opencc-cli.fish
+	$(CARGO) run $(CORE_PATCH) -- completions powershell > completions/opencc-cli.ps1
+	$(CARGO) run $(CORE_PATCH) -- completions elvish > completions/opencc-cli.elv
 	@echo "Shell completions generated successfully in the 'completions/' directory."

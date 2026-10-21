@@ -137,3 +137,9 @@ opencc-cli completions zsh > /usr/local/share/zsh/site-functions/_opencc-cli
 
 本專案採用 **MIT 授權條款**，詳情請參閱 [LICENSE](LICENSE) 檔案。
 著作權所有 © 2026 [Will 保哥](https://www.facebook.com/will.fans/)。
+
+## 台灣詞彙品質改善
+
+`tw2` / `twp` 的共用詞彙規則、語境限制、測試結果與效能對照，請見 [台灣詞彙品質說明](https://github.com/doggy8088/opencc-rust/blob/main/quality/README.md)。
+
+多語言工作區開發請將 `opencc-rust` 放在同層，使用 `make test` / `make build`；Makefile 會套用本機核心。正式發布 CLI 前，需先發布 `opencc-rs-tw2` 0.1.3。

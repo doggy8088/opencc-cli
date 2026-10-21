@@ -720,3 +720,24 @@ fn test_workload_multiple_conversions_piped() {
         .success()
         .stdout(predicate::eq("汉语\n").or(predicate::eq("汉语")));
 }
+
+#[test]
+fn test_taiwan_quality_and_idempotence() {
+    for locale in ["tw2", "twp"] {
+        let cases: Vec<_> = include_str!("taiwan-quality.tsv")
+            .lines()
+            .map(|line| line.split('\t').collect::<Vec<_>>())
+            .filter(|p| p[0] == "both" || p[0] == locale)
+            .collect();
+        let source = cases.iter().map(|p| p[1]).collect::<Vec<_>>().join("\n") + "\n";
+        let expected = cases.iter().map(|p| p[2]).collect::<Vec<_>>().join("\n") + "\n";
+        for input in [source, expected.clone()] {
+            opencc_cmd()
+                .args(["-f", "cn", "-t", locale])
+                .write_stdin(input)
+                .assert()
+                .success()
+                .stdout(expected.clone());
+        }
+    }
+}
