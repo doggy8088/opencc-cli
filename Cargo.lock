@@ -332,7 +332,7 @@ checksum = "384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
 
 [[package]]
 name = "opencc-cli"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -345,9 +345,9 @@ dependencies = [
 
 [[package]]
 name = "opencc-rs-tw2"
-version = "0.1.3"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a5fe75733ba74867fdd11f172d01f9a95f57d004538ca0ea0b790c61fc73c59"
+checksum = "d878d1934862f3e1c10534a1df479182837e214b593edcf031bd832ffce76e20"
 dependencies = [
  "xmltree",
 ]
