@@ -111,4 +111,4 @@ The testing harness in `tests/e2e.rs` consists of **56 integration tests** spann
 - 啟用本機 pre-commit hook（每個 clone 設定一次）：`git config core.hooksPath .githooks`
 - 分工原則：本機負責 format 與快速回歸；CI 負責完整測試矩陣與「乾淨環境」驗證。hook 只放快檢查，慢測試一律交給 CI，避免被 `--no-verify` 繞過。
 - 本機 hook：`cargo fmt --check`。本機 `make test` 會套用 sibling patch（`../opencc-rust` 存在時借用其原始碼），是本機開發的預期行為，不在 hook 擋。
-- CI：`ci.yml` 在無 sibling 的乾淨 checkout 跑 `cargo test --locked` 並有 Guard 斷言相依來自 crates.io，「無 patch 驗證」以 CI 為準。
+- CI：`ci.yml` 在無 sibling 的乾淨 checkout 跑 `cargo test --locked` 並有 Guard 斷言相依來自 crates.io，「無 patch 驗證」以 CI 為準。（`ci.yml` 由 CI 強化批次 PR #2 一併導入，合併後生效。）
