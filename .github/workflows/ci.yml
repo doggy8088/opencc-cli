@@ -1,0 +1,45 @@
+name: ci
+
+# 新增 PR 測試 CI（release.yml 為 cargo-dist 產生，不可手改，故另建本檔）。
+# 目的：PR 階段就在「乾淨 checkout、無 sibling patch」的環境跑 cargo test，
+# 攔下 2026-11-26 那種「tsv 案例與 crates.io 核心版本不一致、本機因 sibling patch 假綠燈」的問題。
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Guard against sibling patch
+        # Makefile 會在 ../opencc-rust 存在時自動 patch 核心；CI 必須證明沒有這個 patch 介入。
+        # 這裡直接用 cargo（不用 make test），並斷言 sibling 不存在、lockfile 指向 registry。
+        run: |
+          if [ -e ../opencc-rust/Cargo.toml ]; then
+            echo "::error::偵測到 ../opencc-rust，sibling patch 可能介入，本 job 要求乾淨 checkout"
+            exit 1
+          fi
+          grep -A2 'name = "opencc-rs-tw2"' Cargo.lock | grep -q 'source = "registry+' || {
+            echo "::error::Cargo.lock 中 opencc-rs-tw2 不是 registry 來源"
+            exit 1
+          }
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Format check
+        run: cargo fmt --all -- --check
+
+      - name: Test (locked, registry core only)
+        run: cargo test --locked
